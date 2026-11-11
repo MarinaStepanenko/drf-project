@@ -1,3 +1,17 @@
-from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets
+from rest_framework.filters import OrderingFilter
 
-# Create your views here.
+from users.filters import PaymentFilter
+from users.models import Payment
+from users.serializers import PaymentSerializer
+
+
+class PaymentViewSet(viewsets.ModelViewSet):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+
+    filterset_class = PaymentFilter
+
+    filter_backends = [OrderingFilter, DjangoFilterBackend]
+    ordering_fields = ["payment_date"]
