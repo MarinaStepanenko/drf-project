@@ -16,3 +16,8 @@ class PaymentAdmin(admin.ModelAdmin):
     ]
     list_filter = ["payment_method", "payment_date"]
     search_fields = ["user__email"]
+
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_filter = ("id", "email")
