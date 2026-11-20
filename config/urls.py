@@ -11,4 +11,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("materials.urls", namespace="materials")),
     path("api/", include(router.urls)),
+    path("users/", include("users.urls", namespace="users")),
 ]
