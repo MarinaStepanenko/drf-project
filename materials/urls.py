@@ -3,9 +3,14 @@ from tkinter.font import names
 from django.urls import include, path
 from rest_framework.routers import SimpleRouter
 
-from materials.views import (CourseViewSet, LessonCreateApiView,
-                             LessonDestroyApiView, LessonListApiView,
-                             LessonRetrieveApiView, LessonUpdateApiView)
+from materials.views import (
+    CourseViewSet,
+    LessonCreateApiView,
+    LessonDestroyApiView,
+    LessonListApiView,
+    LessonRetrieveApiView,
+    LessonUpdateApiView,
+)
 
 app_name = "materials"
 

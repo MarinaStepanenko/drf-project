@@ -1,5 +1,7 @@
 from django.db import models
 
+from config import settings
+
 
 class Course(models.Model):
     name = models.CharField(
@@ -19,6 +21,14 @@ class Course(models.Model):
         null=True,
         verbose_name="Аватар",
         help_text="Загрузите аватара",
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="courses",
+        verbose_name="Владелец",
+        null=True,
+        blank=True,
     )
 
     class Meta:
@@ -53,6 +63,34 @@ class Lesson(models.Model):
         Course, on_delete=models.CASCADE, related_name="lessons", verbose_name="Курс"
     )
 
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="lessons",
+        verbose_name="Владелец",
+        null=True,
+        blank=True,
+    )
+
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="subscriptions",
+        verbose_name="Пользователь",
+    )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name="subscriptions",
+        verbose_name="Курс",
+    )
+
+    class Meta:
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
