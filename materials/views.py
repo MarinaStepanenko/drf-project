@@ -4,7 +4,7 @@ from rest_framework.generics import (
     DestroyAPIView,
     ListAPIView,
     RetrieveAPIView,
-    UpdateAPIView,
+    UpdateAPIView
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -19,6 +19,7 @@ from materials.serializers import (
     LessonSerializer,
 )
 from users.permissions import IsModer, IsOwner
+
 
 
 class CourseViewSet(ModelViewSet):
