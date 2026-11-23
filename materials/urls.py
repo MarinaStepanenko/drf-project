@@ -3,9 +3,15 @@ from tkinter.font import names
 from django.urls import include, path
 from rest_framework.routers import SimpleRouter
 
-from materials.views import (CourseViewSet, LessonCreateApiView,
-                             LessonDestroyApiView, LessonListApiView,
-                             LessonRetrieveApiView, LessonUpdateApiView)
+from materials.views import (
+    CourseViewSet,
+    LessonCreateApiView,
+    LessonDestroyApiView,
+    LessonListApiView,
+    LessonRetrieveApiView,
+    LessonUpdateApiView,
+)
+from materials.views import SubscriptionApiView
 
 app_name = "materials"
 
@@ -26,4 +32,5 @@ urlpatterns = [
     path(
         "lessons/<int:pk>/update/", LessonUpdateApiView.as_view(), name="lessons_update"
     ),
+    path("subscribe/", SubscriptionApiView.as_view(), name="subscribe"),
 ]
