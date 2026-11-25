@@ -1,11 +1,9 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.generics import (
-    CreateAPIView,
-    DestroyAPIView,
-    ListAPIView,
-    RetrieveAPIView,
-    UpdateAPIView
-)
+from drf_spectacular.utils import (OpenApiExample, OpenApiResponse,
+                                   extend_schema)
+from rest_framework.generics import (CreateAPIView, DestroyAPIView,
+                                     ListAPIView, RetrieveAPIView,
+                                     UpdateAPIView)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,13 +11,9 @@ from rest_framework.viewsets import ModelViewSet
 
 from materials.models import Course, Lesson, Subscription
 from materials.paginators import CustomPagination
-from materials.serializers import (
-    CourseDetailSerializer,
-    CourseSerializer,
-    LessonSerializer,
-)
+from materials.serializers import (CourseDetailSerializer, CourseSerializer,
+                                   LessonSerializer)
 from users.permissions import IsModer, IsOwner
-
 
 
 class CourseViewSet(ModelViewSet):
@@ -85,6 +79,36 @@ class LessonDestroyApiView(DestroyAPIView):
 class SubscriptionApiView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        summary="Управление подпиской на курс",
+        description="Если подписка есть — удаляет, если нет — создает. Метод POST.",
+        request={
+            "application/json": {
+                "type": "object",
+                "properties": {
+                    "course_id": {"type": "integer", "example": 1},
+                },
+                "required": ["course_id"],
+            }
+        },
+        responses={
+            200: OpenApiResponse(
+                description="Успешное управление подпиской",
+                response={
+                    "type": "object",
+                    "properties": {"message": {"type": "string"}},
+                },
+                examples=[
+                    OpenApiExample(
+                        "Подписка добавлена", value={"message": "подписка добавлена"}
+                    ),
+                    OpenApiExample(
+                        "Подписка удалена", value={"message": "подписка удалена"}
+                    ),
+                ],
+            )
+        },
+    )
     def post(self, *args, **kwargs):
         user = self.request.user
         course_id = self.request.data.get("course_id")

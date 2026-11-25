@@ -70,10 +70,12 @@ class User(AbstractUser):
 class Payment(models.Model):
     PAYMENT_METHOD_CASH = "cash"
     PAYMENT_METHOD_TRANSFER = "transfer"
+    PAYMENT_METHOD_STRIPE = "stripe"
 
     PAYMENT_METHOD_CHOICES = [
         (PAYMENT_METHOD_CASH, "Наличные"),
         (PAYMENT_METHOD_TRANSFER, "Перевод на счёт"),
+        (PAYMENT_METHOD_STRIPE, "Stripe"),
     ]
 
     user = models.ForeignKey(

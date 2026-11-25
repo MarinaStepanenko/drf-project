@@ -29,12 +29,15 @@ INSTALLED_APPS = [
     "users",
     "materials",
     "rest_framework_simplejwt",
+    "drf_spectacular",
 ]
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),  # Время жизни access токена
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
+
+STRIPE_SECRET_KEY = "sk_test_51Uf23zGvliiGFqc80r1ZpeZmI3BsL5BV7DXpGiYjhWAD8kVUQ0X0KZvqg5xjUGCMxnC39Rth6JbuNsiIK6OAxLQb00RQMDcc4x"
 
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": [
@@ -45,6 +48,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 MIDDLEWARE = [
