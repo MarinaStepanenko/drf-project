@@ -13,6 +13,7 @@ from materials.models import Course, Lesson, Subscription
 from materials.paginators import CustomPagination
 from materials.serializers import (CourseDetailSerializer, CourseSerializer,
                                    LessonSerializer)
+from materials.tasks import send_information_about_subscription
 from users.permissions import IsModer, IsOwner
 
 
@@ -40,6 +41,15 @@ class CourseViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+
+        subscribers = Subscription.objects.filter(course=instance)
+
+        for s in subscribers:
+            if s.user.email:
+                send_information_about_subscription.delay(s.user.email)
 
 
 class LessonCreateApiView(CreateAPIView):
